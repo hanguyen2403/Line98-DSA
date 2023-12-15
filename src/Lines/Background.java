@@ -16,7 +16,6 @@ public class Background extends JPanel {
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
 
         BufferedImage image = null;
 
@@ -26,6 +25,6 @@ public class Background extends JPanel {
             e.printStackTrace();
         }
         //Vẽ background
-        g2.drawImage(image, 0, 0, this);
+        g.drawImage(image, 0, 0, this);
     }
 }

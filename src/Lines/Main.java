@@ -2,7 +2,7 @@ package Lines;
 
 public class Main {
     public static void main(String[] args) {
-        LineFrame game = new LineFrame();
-        game.startGame();
+        Line98Game game = new Line98Game();
+//        game.startGame();
     }
 }
