@@ -59,7 +59,7 @@ public class LineFrame extends JFrame {
         for (int i=0; i<Constant.Row; i++)
             for(int j=0; j<Constant.Column; j++){
                 button[i][j]=new JButton(icon[0]);
-                button[i][j].setBounds(180+j*60,i*60, 60, 60); //vị trí mỗi button
+                button[i][j].setBounds(64+j*52,45+i*52, 52, 52); //vị trí mỗi button
 //                add(button[i][j]);
             }
         //Thêm button vào 10x10 ô
