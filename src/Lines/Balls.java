@@ -18,7 +18,8 @@ public class Balls {
     public int[] nextColor = new int[3]; //ba màu kế tiếp
     public int[] nextColortmp = new int[3]; //ba màu kế tiếp sau mỗi bước
     public int nCountPath;
-    public int Score;
+    public long Score;
+    public long ScoreTemp;
     public boolean GameOver;
 
     public void startGame(){
@@ -114,5 +115,221 @@ public class Balls {
             }
         //khởi tạo 3 màu mới
         createNew3Color();
+    }
+    //lui lai trang thai truoc cua bang
+    public void Undo(){
+
+        for (int i=0;i<Constant.Row;i++)
+            for (int j=0;j<Constant.Column;j++)
+                ball[i][j]=balltmp[i][j];
+
+        for (int k=0; k < 3; k++)
+            nextColor[k]=nextColortmp[k];
+
+        Score = ScoreTemp;
+    }
+
+    //-------------------------------------------------------------------
+    //luu trang thai truoc cua bang
+    public void saveUndo(){
+
+        for (int i=0;i<Constant.Row;i++)
+            for (int j=0;j<Constant.Column;j++)
+                if (ball[i][j]>2*Constant.MaxColor)
+                    balltmp[i][j]=ball[i][j]-Constant.MaxColor;
+                else
+                    balltmp[i][j]=ball[i][j];
+        for (int k=0; k < 3; k++)
+            nextColortmp[k]=nextColor[k];
+
+        ScoreTemp = Score;
+
+    }
+    public boolean cutBall(){
+        int NumCutBall = 0;//So bong bi cut
+        int nBall;
+        boolean CheckBall[][]=new boolean[Constant.Row][Constant.Column];
+        point[]TempBall=new point [Constant.Row];
+        point[]CellBall=new point [Constant.Row*Constant.Column];//Mang luu lai toa do cac bong bi cut
+        int i, j,nRow, nCol, nCount;
+
+        for (i =0; i < Constant.Row; i++)
+            for (j=0; j < Constant.Column; j++)
+                CheckBall[i][j] = false;
+
+        for (nRow=0; nRow < Constant.Row; nRow++)
+            for (nCol=0; nCol < Constant.Column; nCol++)
+                if (ball[nRow][nCol] > 0 && !CheckBall[nRow][nCol]){
+
+                    nBall = ball[nRow][nCol];
+                    //Xet' hang` doc
+                    i = nRow;
+                    j = nCol;
+                    while (i > 0 && ball[ i-1][j] == nBall)
+                        i--;
+                    nCount = 0;
+                    while (i < Constant.Row && ball[i][j] == nBall){
+
+                        CheckBall[i][j] = true;
+                        TempBall[nCount++] = new point(i ,j);
+                        i++;
+
+                    }
+                    if (nCount >= 5){
+                        for (i=0; i < nCount; i++)
+                            CellBall[NumCutBall++] = TempBall[i];
+
+                        Score+=(nCount-4)*nCount;
+
+                    }
+
+                    //Xet' hang` ngang
+                    i = nRow;
+                    j = nCol;
+                    while (j > 0 && ball[i][j-1] == nBall)
+                        j--;
+                    nCount = 0;
+                    while (j < Constant.Column && ball[i][j] == nBall){
+
+                        CheckBall[i][j] = true;
+                        TempBall[nCount++] = new point(i ,j);
+                        j++;
+
+                    }
+                    if (nCount >= 5){
+                        for (i=0; i < nCount; i++)
+                            CellBall[NumCutBall++] = TempBall[i];
+
+                        Score+=(nCount-4)*nCount;
+
+                    }
+
+                    //Xet hang cheo' trai'
+                    i = nRow;
+                    j = nCol;
+                    while (i > 0 && j > 0 && ball[i-1][j-1] == nBall){
+
+                        i--;
+                        j--;
+
+                    }
+                    nCount = 0;
+                    while (i < Constant.Row &&  j < Constant.Column && ball[i][j] == nBall){
+
+                        CheckBall[i][j] = true;
+                        TempBall[nCount++] = new point(i ,j);
+                        i++;
+                        j++;
+
+                    }
+                    if (nCount >= 5){
+                        for (i=0; i < nCount; i++)
+                            CellBall[NumCutBall++] = TempBall[i];
+
+                        Score+=(nCount-4)*nCount;
+
+                    }
+                    //Xet/ hang` cheo' phai
+                    i = nRow;
+                    j = nCol;
+                    while (i > 0 && j+1 < Constant.Column && ball[i-1][j+1] == nBall){
+
+                        i--;
+                        j++;
+
+                    }
+                    nCount = 0;
+                    while (i < Constant.Row &&  j >= 0 && ball[i][j] == nBall){
+
+                        CheckBall[i][j] = true;
+                        TempBall[nCount++] = new point(i ,j);
+                        i++;
+                        j--;
+
+                    }
+                    if (nCount >= 5){
+                        for (i=0; i < nCount; i++)
+                            CellBall[NumCutBall++] = TempBall[i];
+
+                        Score+=(nCount-4)*nCount;
+
+                    }
+
+                }
+        for (i=0; i < NumCutBall; i++)
+            ball[CellBall[i].x][CellBall[i].y ] = 0;
+        if (NumCutBall>0) return true;
+        else return false;
+
+    }
+    //Luu lai duong di
+    public void FindPath(point p, point [][] PathBallTemp)
+    {
+        if(p.x!=-1 && p.y!=-1)
+            if (PathBallTemp[p.x][p.y] != new point(-1,-1))
+                FindPath(PathBallTemp[p.x][p.y],PathBallTemp);
+        pathBall[nCountPath++]=p;
+    }
+    public boolean BFS(int si, int sj, int fi, int fj){ // Loang de tim duong di tu (si,sj)-->(fi,fj);
+
+        int [] di = {-1, 1, 0, 0};
+        int [] dj = {0 , 0,-1, 1};
+        int i, j, k, nCount;
+        point pStart, pFinish, pCurrent;
+        point [][] Query = new point[2][ Constant.Row * Constant.Column ];//2 hang doi de loang
+        point [][] PathBallTemp = new point[ Constant.Row][Constant.Column ];//Mang luu cac o da di qua
+        boolean [][]ballCheck=new boolean[Constant.Row][Constant.Column];//Mang danh dau ca o da xet
+
+        pStart = new point(si, sj);//O bat dau
+        pFinish = new point(fi, fj);//O ket thuc
+
+        //Cho pSart vao` hang doi
+        int nQuery = 1;
+        Query[0][0] = pStart;
+
+        //Danh dau cac o da~ co bong
+        for (i=0; i < Constant.Row; i++)
+            for (j=0; j < Constant.Column; j++)
+                if (ball[i][j]>0 && ball[i][j]<8)
+                    ballCheck[i][j] = true;
+                else ballCheck[i][j] = false;
+
+        ballCheck[pStart.x][pStart.y] = true;
+        if (ballCheck[pFinish.x][pFinish.y])
+            return false;
+        //Loang de tim duong di
+        PathBallTemp[si][sj] = new point(-1,-1);
+        while (nQuery > 0)
+        {
+            nCount = 0;
+            for (int nLast=0; nLast < nQuery; nLast++)
+            {
+                pCurrent = Query[0][nLast ];
+                //Tim xung quanh 4 huong' cua o (i, j) xem co huong nao` co' the di duoc khong ?
+                for (k=0; k < 4; k++)
+                {
+                    i = pCurrent.x + di[k];
+                    j = pCurrent.y + dj[k];
+                    if (i >= 0 && i < Constant.Row && j >=0 && j < Constant.Column && !ballCheck[i][j]){
+
+                        Query[1][nCount++] = new point( i, j);
+                        ballCheck[i][j] = true;
+                        PathBallTemp[i][j] = new point(pCurrent.x, pCurrent.y);// luu ô gốc vào nhánh ô
+                        //Tim tay o dich, thi dung tim kiem
+                        if (ballCheck[fi][fj]){
+                            nCountPath = 0;
+                            FindPath(new point(fi,fj),PathBallTemp);
+                            return true;
+                        }
+                    }
+                }
+            }
+            //Bo cac' ptu cua Query[1] vao Query[0] de tiep' tuc loang
+            for (k=0; k < nCount; k++)
+                Query[0][k] = Query[1][k];
+            nQuery = nCount;
+        }
+
+        return false;
     }
 }
