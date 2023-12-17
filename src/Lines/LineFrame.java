@@ -15,11 +15,11 @@ public class LineFrame extends JFrame {
     public Balls b = new Balls();
     public JLabel bg;
     public Icon icon[] = new Icon[22];
-    public MyPanel panel;
+
     public int x,y; //toạ độ của bóng
     private Background background;
 
-
+    public MyPanel panel;
     //----------------------------------------------------------------------------------------
     //Khởi tạo
     public LineFrame(){
@@ -60,7 +60,7 @@ public class LineFrame extends JFrame {
         for (int i=0; i<Constant.Row; i++)
             for(int j=0; j<Constant.Column; j++){
                 button[i][j]=new JButton(icon[0]);
-                button[i][j].setBounds(64+j*52,45+i*52, 52, 52); //vị trí mỗi button
+                button[i][j].setBounds(64+j*52 + 3,45+i*52 + 3, 52 - 3, 52 - 3); //vị trí mỗi button
 //                add(button[i][j]);
             }
         //Thêm button vào 10x10 ô
@@ -69,21 +69,25 @@ public class LineFrame extends JFrame {
                 this.add(button[i][j]);
 
         x = y = -1;
-        setButton();
         panel = new MyPanel();
-        panel.setBounds(64+(Constant.Column-1)*52,45+(Constant.Row-1)*52, 52, 52);
-        this.add(panel);
+        setButton();
+
+//        panel.setBounds(64+(Constant.Column-1)*52,45+(Constant.Row-1)*52, 52, 52);
+
         background = new Background();
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
         setTitle(Constant.TITLE);
+
+        this.add(panel);
         this.add(background);
-        pack();
+        this.pack();
         setSize(960,640);
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
     public void setButton(){
         for (int i=0;i<Constant.Row;i++)
             for (int j=0;j<Constant.Column;j++)
@@ -116,18 +120,21 @@ public class LineFrame extends JFrame {
 
                                             System.out.println("start "+x+ " "+ y + " end: "+  i+ " "+j);
                                                     // vẽ đường đi ngắn nhất
-                                                    for (int ex = 1; ex < b.nCountPath - 1 ; ex++){
+                                            try { for (int ex = 1; ex < b.nCountPath - 2 ; ex++){
 
                                                         int startx = b.pathBall[ex].x;
                                                         int starty = b.pathBall[ex].y;
                                                         int nextx = b.pathBall[ex+1].x;
                                                         int nexty = b.pathBall[ex+1].y;
-                                                        try {
 
-                                                            System.out.println("from: "+startx + " "+ starty+" to: "+ nextx+" "+ nexty+" ball value: "+ b.ball[nextx][nexty]);
-                                                            Thread.sleep(200);
-                                                        }catch(Exception e){}
-                                                    }
+
+                                                            panel.paint(panel.getGraphics(),nextx,nexty);
+                                                            System.out.println("from: "+startx + " "+ starty+" to: "+ nextx+" "+ nexty+" ball value start: "+ b.ball[startx][starty]+" ball value next: "+ b.ball[nextx][nexty]);
+                                                            Thread.sleep(250);
+                                                            panel.remove(panel.getGraphics());
+                                                            DrawBall();
+                                                        }
+                                                    }catch(Exception e){}
                                             try{moveBall(x,y,i,j);}catch(Exception e){}
                                             DrawBall();
 //                                                    b.ball[i][j] -= 14;
@@ -158,13 +165,12 @@ public class LineFrame extends JFrame {
 
         b.ball[ii][jj] = b.ball[i][j]-14;//[j] - 14
         b.ball[i][j] = 0;
-        DrawBall();
-        for(int k=0;k<22;k++)
-            if(button[i][j].getIcon()==icon[k]) {
-                button[ii][jj].setIcon(icon[k-14]);//icon[k-14]);
-                System.out.println(k);
-            }
-        button[i][j].setIcon(icon[0]);
+//        for(int k=0;k<22;k++)
+//            if(button[i][j].getIcon()==icon[k]) {
+//                button[ii][jj].setIcon(icon[k-14]);//icon[k-14]);
+//                System.out.println(k);
+//            }
+//        button[i][j].setIcon(icon[0]);
     }
     public void DrawBall(){
         for (int i = 0; i < Constant.Row; i++){
