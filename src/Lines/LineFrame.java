@@ -60,7 +60,7 @@ public class LineFrame extends JFrame {
         for (int i=0; i<Constant.Row; i++)
             for(int j=0; j<Constant.Column; j++){
                 button[i][j]=new JButton(icon[0]);
-                button[i][j].setBounds(64+j*52 + 3,45+i*52 + 3, 52 - 3, 52 - 3); //vị trí mỗi button
+                button[i][j].setBounds(64+j*52 ,45+i*52 , 52 , 52 ); //vị trí mỗi button
 //                add(button[i][j]);
             }
         //Thêm button vào 10x10 ô
@@ -119,6 +119,8 @@ public class LineFrame extends JFrame {
                                             b.saveUndo();//luu lai trang thai truoc khi di chuyen
 
                                             System.out.println("start "+x+ " "+ y + " end: "+  i+ " "+j);
+                                            panel.paint(panel.getGraphics(),x,y, button[x][y].getIcon());
+                                            panel.remove(panel.getGraphics());
                                                     // vẽ đường đi ngắn nhất
                                             try { for (int ex = 1; ex < b.nCountPath - 2 ; ex++){
 
@@ -128,10 +130,10 @@ public class LineFrame extends JFrame {
                                                         int nexty = b.pathBall[ex+1].y;
 
 
-                                                            panel.paint(panel.getGraphics(),nextx,nexty);
+                                                            panel.paint(panel.getGraphics(),nextx,nexty, button[x][y].getIcon());
                                                             System.out.println("from: "+startx + " "+ starty+" to: "+ nextx+" "+ nexty+" ball value start: "+ b.ball[startx][starty]+" ball value next: "+ b.ball[nextx][nexty]);
-                                                            Thread.sleep(250);
-                                                            panel.remove(panel.getGraphics());
+                                                            Thread.sleep(150);
+                                                            panel.paint(panel.getGraphics(),nextx,nexty, button[nextx][nexty].getIcon());
                                                             DrawBall();
                                                         }
                                                     }catch(Exception e){}
