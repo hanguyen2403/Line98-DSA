@@ -19,7 +19,7 @@ public class MyPanel extends JPanel implements ActionListener {
     MyPanel(){
         this.setBounds(64,45,Constant.Row*52+3,Constant.Column*52+3);
         //this.setPreferredSize(new Dimension(Constant.Row*52,Constant.Column*52));
-        this.setBackground(Color.black);
+        this.setBackground(Color.gray);
         setVisible(true);
     }
     //vẽ ô di chuyển cho bóng

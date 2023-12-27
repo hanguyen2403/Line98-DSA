@@ -9,89 +9,128 @@ import java.util.Objects;
 
 import java.awt.event.*;
 import java.io.*;
-public class LineFrame extends JFrame {
+public class LineFrame implements State {
     private static boolean running;
     public JButton button[][] = new JButton[10][10];
+    public JButton undo;		//nut undo
     public Balls b = new Balls();
-    public JLabel bg;
+    public JLabel score;
     public Icon icon[] = new Icon[22];
 
     public int x,y; //toạ độ của bóng
     private Background background;
 
     public MyPanel panel;
+    public JFrame frame = new JFrame();
+
+    private static Line98Game command = new Line98Game(); //Command design pattern
     //----------------------------------------------------------------------------------------
+    //Tạo command
+    public LineFrame() {};
     //Khởi tạo
-    public LineFrame(){
+    public void createLineFrame(){
 
         //7 qua bong to
-        icon[1] = new ImageIcon("src/Resources/Balls/big1.png");
-        icon[2] = new ImageIcon("src/Resources/Balls/big2.png");
-        icon[3] = new ImageIcon("src/Resources/Balls/big3.png");
-        icon[4] = new ImageIcon("src/Resources/Balls/big4.png");
-        icon[5] = new ImageIcon("src/Resources/Balls/big5.png");
-        icon[6] = new ImageIcon("src/Resources/Balls/big6.png");
-        icon[7] = new ImageIcon("src/Resources/Balls/big7.png");
+        icon[1] = new ImageIcon(LoadSave.BIG1);
+        icon[2] = new ImageIcon(LoadSave.BIG2);
+        icon[3] = new ImageIcon(LoadSave.BIG3);
+        icon[4] = new ImageIcon(LoadSave.BIG4);
+        icon[5] = new ImageIcon(LoadSave.BIG5);
+        icon[6] = new ImageIcon(LoadSave.BIG6);
+        icon[7] = new ImageIcon(LoadSave.BIG7);
 
         //7 qua bong nho
-        icon[8] = new ImageIcon("src/Resources/Balls/small1.png");
-        icon[9] = new ImageIcon("src/Resources/Balls/small2.png");
-        icon[10] = new ImageIcon("src/Resources/Balls/small3.png");
-        icon[11] = new ImageIcon("src/Resources/Balls/small4.png");
-        icon[12] = new ImageIcon("src/Resources/Balls/small5.png");
-        icon[13] = new ImageIcon("src/Resources/Balls/small6.png");
-        icon[14] = new ImageIcon("src/Resources/Balls/small7.png");
+        icon[8] = new ImageIcon(LoadSave.SMALL1);
+        icon[9] = new ImageIcon(LoadSave.SMALL2);
+        icon[10] = new ImageIcon(LoadSave.SMALL3);
+        icon[11] = new ImageIcon(LoadSave.SMALL4);
+        icon[12] = new ImageIcon(LoadSave.SMALL5);
+        icon[13] = new ImageIcon(LoadSave.SMALL6);
+        icon[14] = new ImageIcon(LoadSave.SMALL7);
 
         //7 qua bong nhay
-        icon[15] = new ImageIcon("src/Resources/Balls/d1.gif");
-        icon[16] = new ImageIcon("src/Resources/Balls/d2.gif");
-        icon[17] = new ImageIcon("src/Resources/Balls/d3.gif");
-        icon[18] = new ImageIcon("src/Resources/Balls/d4.gif");
-        icon[19] = new ImageIcon("src/Resources/Balls/d5.gif");
-        icon[20] = new ImageIcon("src/Resources/Balls/d6.gif");
-        icon[21] = new ImageIcon("src/Resources/Balls/d7.gif");
+        icon[15] = new ImageIcon(LoadSave.D1);
+        icon[16] = new ImageIcon(LoadSave.D2);
+        icon[17] = new ImageIcon(LoadSave.D3);
+        icon[18] = new ImageIcon(LoadSave.D4);
+        icon[19] = new ImageIcon(LoadSave.D5);
+        icon[20] = new ImageIcon(LoadSave.D6);
+        icon[21] = new ImageIcon(LoadSave.D7);
 
-        icon[0] = new ImageIcon("src/Resources/Piskel.png");
+        icon[0] = new ImageIcon(LoadSave.PISKET);
+        
+		//Khởi tạo nút undo
+        undo = new JButton();
+        undo.setBounds(715, 486, 100, 50);
+        undo.setText("Undo: "+b.UndoTimes);
+        undo.setFont(new Font("Arial", Font.BOLD, 16));
+        undo.setForeground(Color.RED);
+        
+        //Khởi tạo điểm trò chơi
+        score = new JLabel("Score: "+b.Score);
+        score.setBounds(715, 48, 200, 50);
+        score.setFont(new Font("Arial", Font.BOLD, 26));
+        score.setForeground(Color.PINK);
+        
+
 
 //        setLayout(new GridLayout(Constant.Row,Constant.Column)); // set 10x10 ô button
 
-        setLayout(new BorderLayout()); // set Layout để chèn background
+        frame.setLayout(new BorderLayout()); // set Layout để chèn background
         //Khởi tạo button
         for (int i=0; i<Constant.Row; i++)
             for(int j=0; j<Constant.Column; j++){
                 button[i][j]=new JButton(icon[0]);
-                button[i][j].setBounds(64+j*52 ,45+i*52 , 52 , 52 ); //vị trí mỗi button
+                button[i][j].setBounds(67+j*52 ,48+i*52 , 50 , 50 ); //vị trí mỗi button
 //                add(button[i][j]);
             }
         //Thêm button vào 10x10 ô
         for (int i=0; i<Constant.Row; i++)
             for(int j=0; j<Constant.Column; j++)
-                this.add(button[i][j]);
+                frame.add(button[i][j]);
+        //Thêm nút undo
+        frame.add(undo);
+        setUndoButton();
+        
 
         x = y = -1;
         panel = new MyPanel();
+        
         setButton();
 
 //        panel.setBounds(64+(Constant.Column-1)*52,45+(Constant.Row-1)*52, 52, 52);
 
         background = new Background();
 
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setResizable(false);
-        setTitle(Constant.TITLE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+        frame.setTitle(Constant.TITLE);
 
-        this.add(panel);
-        this.add(background);
-        this.pack();
-        setSize(960,640);
-        setLocationRelativeTo(null);
-        setVisible(true);
+        frame.add(score);
+        frame.add(panel);
+        frame.add(background);
+        frame.pack();
+        frame.setSize(960,640);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
-    public void setButton(){
+    private void setUndoButton() {
+    	undo.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent ae) {
+    			b.Undo();
+    			undo.setText("Undo: "+b.UndoTimes);
+                score.setText("Score: "+b.Score);
+    			DrawBall();
+    		}
+    	});
+		
+	}
+
+	public void setButton(){
         for (int i=0;i<Constant.Row;i++)
             for (int j=0;j<Constant.Column;j++)
-                // thực hiện lệnh bấp cho ô
+                // thực hiện lệnh bấm cho ô
                 button[i][j].addActionListener( new ActionListener(){
                     public void actionPerformed(ActionEvent ae)
                     {
@@ -150,11 +189,10 @@ public class LineFrame extends JFrame {
                                     }
 
                                     bounceBall();//nhay bong
-//                                    player.scores=(int)b.Score;
-//                                    score.setText((int)b.Score+" ");
-//                                    try{
-//                                        //stopGame();//dung` tro choi neu cac o da~ day` bong
-//                                    }catch(IOException e){}
+                                    score.setText("Score: "+b.Score);
+                                    try{
+                                        stopGame();//dung` tro choi neu cac o da~ day` bong
+                                    }catch(IOException e){}
 
                                 }
 
@@ -199,7 +237,34 @@ public class LineFrame extends JFrame {
         x = y = -1;
     }
     public void stopGame()    throws IOException{
-//        if(b.gameover==true){
+    	int n = 0;
+        for (int i = 0; i < Constant.Row; i++){
+            for (int j = 0; j < Constant.Column; j++){
+                if (b.ball[i][j] == 0)
+                	n++;
+            }
+        }
+        if (n >= 3)
+        	return;
+        frame.dispose();
+        command.setEndState();
+        
+//        JFrame frame = new JFrame();
+//        EndFrame end = new EndFrame( new Rectangle(290 - 30, 400, 450, 50),new Rectangle(370 - 30, 490, 250, 50),frame);
+//        end.setPreferredSize(new Dimension(960, 640));
+//
+//        frame.setVisible(true);
+//        frame.add(end, BorderLayout.CENTER);
+//        frame.pack();
+//
+//        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//        frame.setResizable(false);
+//        frame.setTitle(Constant.TITLE);
+//        frame.setLocationRelativeTo(null);
+//
+//        frame.setVisible(true);
+        
+//        if(b.GameOver==true){
 //            //topScores.readFile();
 //            boolean k2 =false;//kiem tra diem xem co luu vao TopScores khong
 //            for(int i=0;i<10;i++)
@@ -230,4 +295,16 @@ public class LineFrame extends JFrame {
 //            }
 //        }
     }
+
+	@Override
+	public void handleRequest() {
+		System.out.println("wadasas");
+        try {
+            LineFrame lineFrame = new LineFrame();
+            lineFrame.createLineFrame();
+            lineFrame.startGame();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+	}
 }

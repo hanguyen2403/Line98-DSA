@@ -14,7 +14,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class StartFrame extends JPanel implements MouseListener, MouseMotionListener, State {
+public class EndFrame extends JPanel implements MouseListener, MouseMotionListener, State {
     private BufferedImage backgroundImage,playImage,exitImage;
     JFrame frame = new JFrame();
     private boolean isClicked;
@@ -24,9 +24,9 @@ public class StartFrame extends JPanel implements MouseListener, MouseMotionList
     private static Line98Game command = new Line98Game(); //Command design pattern
     
     //Tạo command
-    public StartFrame() {};
+    public EndFrame() {};
 
-    public StartFrame(Rectangle area, Rectangle area2, JFrame jFrame) {
+    public EndFrame(Rectangle area, Rectangle area2, JFrame jFrame) {
         addMouseListener(this);
         addMouseMotionListener(this);
         this.area=area;
@@ -37,9 +37,9 @@ public class StartFrame extends JPanel implements MouseListener, MouseMotionList
         exit=3;
         // Load the background image
 
-        	backgroundImage = LoadSave.GetImage(LoadSave.START_SCENE);
-        	playImage = LoadSave.GetImage(LoadSave.PLAY_START_SCENE);
-        	exitImage = LoadSave.GetImage(LoadSave.EXIT_START_SCENE);
+        	backgroundImage = LoadSave.GetImage(LoadSave.END_SCENE);
+        	playImage = LoadSave.GetImage(LoadSave.PLAY_END_SCENE);
+        	exitImage = LoadSave.GetImage(LoadSave.EXIT_END_SCENE);
         	
 //            try {        	
 //            backgroundImage = ImageIO.read(getClass().getResourceAsStream("/Resources/start/scene.png"));
@@ -76,7 +76,7 @@ public class StartFrame extends JPanel implements MouseListener, MouseMotionList
 //            lineFrame.startGame();
 //        } catch (Exception e) {
 //            e.printStackTrace();
-//        }    	
+//        }
     }
     public void mouseReleased(MouseEvent e) {
         isClicked = false;
@@ -126,12 +126,11 @@ public class StartFrame extends JPanel implements MouseListener, MouseMotionList
 
 	@Override
 	public void handleRequest() {
-        StartFrame panel = new StartFrame( new Rectangle(400 - 30, 400, 220, 50),new Rectangle(370 - 30, 490, 250, 50),frame);
-        panel.setPreferredSize(new Dimension(960, 640));
-
+        EndFrame end = new EndFrame( new Rectangle(290 - 30, 400, 450, 50),new Rectangle(370 - 30, 490, 250, 50),frame);
+        end.setPreferredSize(new Dimension(960, 640));
 
         frame.setVisible(true);
-        frame.add(panel, BorderLayout.CENTER);
+        frame.add(end, BorderLayout.CENTER);
         frame.pack();
 
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -140,5 +139,6 @@ public class StartFrame extends JPanel implements MouseListener, MouseMotionList
         frame.setLocationRelativeTo(null);
 
         frame.setVisible(true);
+		
 	}
 }

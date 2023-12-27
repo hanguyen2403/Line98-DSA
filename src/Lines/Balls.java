@@ -21,6 +21,8 @@ public class Balls {
     public long Score;
     public long ScoreTemp;
     public boolean GameOver;
+    public LinkedListUndo linklist = new LinkedListUndo();
+    public int UndoTimes = 5;	//so lan undo
 
     public void startGame(){
         //khởi tạo vị trí bóng ban đầu
@@ -33,6 +35,7 @@ public class Balls {
         int x,y;
         Random random = new Random();
         point[] EmptyCell = new point[3];
+        
         //khởi tạo 3 bóng lớn
         if (CheckEmptyCell(3,EmptyCell)){
             for (int i = 0; i < 3; i++){
@@ -118,15 +121,18 @@ public class Balls {
     }
     //lui lai trang thai truoc cua bang
     public void Undo(){
+    	if ((!linklist.isEmpty()) && (UndoTimes > 0)) {
+    		UndoTimes--;
+    		Link r = linklist.deleteLast();
+            for (int i=0;i<Constant.Row;i++)
+                for (int j=0;j<Constant.Column;j++)
+                    ball[i][j]=r.ball[i][j];
 
-        for (int i=0;i<Constant.Row;i++)
-            for (int j=0;j<Constant.Column;j++)
-                ball[i][j]=balltmp[i][j];
+            for (int k=0; k < 3; k++)
+                nextColor[k]=r.color[k];
 
-        for (int k=0; k < 3; k++)
-            nextColor[k]=nextColortmp[k];
-
-        Score = ScoreTemp;
+            Score = r.score;
+    	}
     }
 
     //-------------------------------------------------------------------
@@ -136,13 +142,14 @@ public class Balls {
         for (int i=0;i<Constant.Row;i++)
             for (int j=0;j<Constant.Column;j++)
                 if (ball[i][j]>2*Constant.MaxColor)
-                    balltmp[i][j]=ball[i][j]-Constant.MaxColor;
+                    balltmp[i][j]=ball[i][j]-(2*Constant.MaxColor);
                 else
                     balltmp[i][j]=ball[i][j];
         for (int k=0; k < 3; k++)
             nextColortmp[k]=nextColor[k];
-
         ScoreTemp = Score;
+
+    	linklist.insertLast(balltmp, nextColortmp, ScoreTemp);
 
     }
     public boolean cutBall(){
@@ -179,7 +186,7 @@ public class Balls {
                         for (i=0; i < nCount; i++)
                             CellBall[NumCutBall++] = TempBall[i];
 
-                        Score+=(nCount-4)*nCount;
+                        Score+=(nCount-4)*nCount*10;
 
                     }
 
@@ -200,7 +207,7 @@ public class Balls {
                         for (i=0; i < nCount; i++)
                             CellBall[NumCutBall++] = TempBall[i];
 
-                        Score+=(nCount-4)*nCount;
+                        Score+=(nCount-4)*nCount*10;
 
                     }
 
@@ -226,7 +233,7 @@ public class Balls {
                         for (i=0; i < nCount; i++)
                             CellBall[NumCutBall++] = TempBall[i];
 
-                        Score+=(nCount-4)*nCount;
+                        Score+=(nCount-4)*nCount*10;
 
                     }
                     //Xet/ hang` cheo' phai
@@ -251,7 +258,7 @@ public class Balls {
                         for (i=0; i < nCount; i++)
                             CellBall[NumCutBall++] = TempBall[i];
 
-                        Score+=(nCount-4)*nCount;
+                        Score+=(nCount-4)*nCount*10;
 
                     }
 
