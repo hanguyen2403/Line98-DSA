@@ -1,18 +1,21 @@
+/*Name: Group 15
+  Nguyễn Khánh Hà - ITCSIU21004
+  Phạm Anh Huy - ITCSIU21133
+  Trần Quang Bảo Duy - ITCSIU21176
+  Purpose: This class is to show and run function of game*/
 package Lines;
 
-import javax.imageio.ImageIO;
-import javax.sound.sampled.Line;
 import javax.swing.*;
 import java.awt.*;
-import java.util.concurrent.TimeUnit;
-import java.util.Objects;
 
 import java.awt.event.*;
 import java.io.*;
 public class LineFrame implements State {
     private static boolean running;
+    private int xScore = 744;
     public JButton button[][] = new JButton[10][10];
     public JButton undo;		//nut undo
+    public JButton restart;
     public Balls b = new Balls();
     public JLabel score;
     public Icon icon[] = new Icon[22];
@@ -61,18 +64,20 @@ public class LineFrame implements State {
         
 		//Khởi tạo nút undo
         undo = new JButton();
-        undo.setBounds(715, 486, 100, 50);
-        undo.setText("Undo: "+b.UndoTimes);
-        undo.setFont(new Font("Arial", Font.BOLD, 16));
-        undo.setForeground(Color.RED);
-        
-        //Khởi tạo điểm trò chơi
-        score = new JLabel("Score: "+b.Score);
-        score.setBounds(715, 48, 200, 50);
-        score.setFont(new Font("Arial", Font.BOLD, 26));
-        score.setForeground(Color.PINK);
-        
+        undo.setBounds(662, 393, 205, 75);
+        undo.setIcon(new ImageIcon(LoadSave.UNDO));
 
+        //Khởi tạo nút restart
+        restart = new JButton();
+        restart.setBounds(662, 270, 205, 75);
+        restart.setIcon(new ImageIcon(LoadSave.RESTART));
+        //Khởi tạo điểm trò chơi
+        score = new JLabel("" + b.Score);
+        setBound();
+        score.setFont(new Font("Squartiqa4F",Font.PLAIN, 40));
+        score.setForeground(Color.decode("#E3FFD6"));
+
+        
 
 //        setLayout(new GridLayout(Constant.Row,Constant.Column)); // set 10x10 ô button
 
@@ -91,7 +96,9 @@ public class LineFrame implements State {
         //Thêm nút undo
         frame.add(undo);
         setUndoButton();
-        
+        //Thêm nút restart
+        frame.add(restart);
+        setRestartButton();
 
         x = y = -1;
         panel = new MyPanel();
@@ -114,19 +121,25 @@ public class LineFrame implements State {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-
     private void setUndoButton() {
     	undo.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent ae) {
     			b.Undo();
-    			undo.setText("Undo: "+b.UndoTimes);
-                score.setText("Score: "+b.Score);
+                setBound();
+                score.setText(""+b.Score);
     			DrawBall();
     		}
     	});
-		
 	}
-
+    private void setRestartButton() {
+        restart.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                command.setGameState();
+            }
+        });
+    }
 	public void setButton(){
         for (int i=0;i<Constant.Row;i++)
             for (int j=0;j<Constant.Column;j++)
@@ -171,25 +184,23 @@ public class LineFrame implements State {
 
                                                             panel.paint(panel.getGraphics(),nextx,nexty, button[x][y].getIcon());
                                                             System.out.println("from: "+startx + " "+ starty+" to: "+ nextx+" "+ nexty+" ball value start: "+ b.ball[startx][starty]+" ball value next: "+ b.ball[nextx][nexty]);
-                                                            Thread.sleep(150);
+                                                            Thread.sleep(100);
                                                             panel.paint(panel.getGraphics(),nextx,nexty, button[nextx][nexty].getIcon());
                                                             DrawBall();
                                                         }
                                                     }catch(Exception e){}
                                             try{moveBall(x,y,i,j);}catch(Exception e){}
                                             DrawBall();
-//                                                    b.ball[i][j] -= 14;
-//                                                    button[i][j].setIcon(icon[b.ball[i][j]]);
-                                            if(b.cutBall()==false)b.create3NewBalls();
+                                            if(b.cutBall()==false) b.create3NewBalls();
                                             b.cutBall();
-                                            //displayNextBall();//hien thi 3 mau sap xuat hien
                                             DrawBall();
                                             x=y=-1;
                                         }
                                     }
 
                                     bounceBall();//nhay bong
-                                    score.setText("Score: "+b.Score);
+                                    setBound();
+                                    score.setText("" + b.Score);
                                     try{
                                         stopGame();//dung` tro choi neu cac o da~ day` bong
                                     }catch(IOException e){}
@@ -205,12 +216,6 @@ public class LineFrame implements State {
 
         b.ball[ii][jj] = b.ball[i][j]-14;//[j] - 14
         b.ball[i][j] = 0;
-//        for(int k=0;k<22;k++)
-//            if(button[i][j].getIcon()==icon[k]) {
-//                button[ii][jj].setIcon(icon[k-14]);//icon[k-14]);
-//                System.out.println(k);
-//            }
-//        button[i][j].setIcon(icon[0]);
     }
     public void DrawBall(){
         for (int i = 0; i < Constant.Row; i++){
@@ -236,7 +241,7 @@ public class LineFrame implements State {
         DrawBall();
         x = y = -1;
     }
-    public void stopGame()    throws IOException{
+    public void stopGame() throws IOException{
     	int n = 0;
         for (int i = 0; i < Constant.Row; i++){
             for (int j = 0; j < Constant.Column; j++){
@@ -248,52 +253,6 @@ public class LineFrame implements State {
         	return;
         frame.dispose();
         command.setEndState();
-        
-//        JFrame frame = new JFrame();
-//        EndFrame end = new EndFrame( new Rectangle(290 - 30, 400, 450, 50),new Rectangle(370 - 30, 490, 250, 50),frame);
-//        end.setPreferredSize(new Dimension(960, 640));
-//
-//        frame.setVisible(true);
-//        frame.add(end, BorderLayout.CENTER);
-//        frame.pack();
-//
-//        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//        frame.setResizable(false);
-//        frame.setTitle(Constant.TITLE);
-//        frame.setLocationRelativeTo(null);
-//
-//        frame.setVisible(true);
-        
-//        if(b.GameOver==true){
-//            //topScores.readFile();
-//            boolean k2 =false;//kiem tra diem xem co luu vao TopScores khong
-//            for(int i=0;i<10;i++)
-////                if(topScores.player[i].scores<player.scores){
-////                    k2 = true;
-////                    break;
-////                }
-//            if(k2==true){
-//                player.setName();
-//                topScores.add(player);
-//                topScores.showTopScores();
-//                startGame();
-//            }else {
-//                GameOver = new JFrame(" GameOver !");
-//                JButton msg1 = new JButton(" TRO CHOI KET THUC !");
-//                JButton msg2 = new JButton(" Ban Ghi Duoc "+player.scores+" Diem");
-//                GameOver.add(msg1);
-//                GameOver.add(msg2);
-//                GameOver.setLayout(new GridLayout(2,1));
-//                GameOver.setSize(290,150);
-//                GameOver.setResizable(false);
-//                GameOver.show();
-//                GameOver.addWindowListener( new WindowAdapter() {// tao game moi khi tat cua so
-//                    public void windowClosing(WindowEvent e){
-//                        startGame();
-//                    }
-//                });
-//            }
-//        }
     }
 
 	@Override
@@ -307,4 +266,10 @@ public class LineFrame implements State {
             e.printStackTrace();
         }
 	}
+    public void setBound(){
+        if (b.Score < 10) xScore = 744;
+        if (b.Score > 9) xScore =  734;
+        if (b.Score > 99) xScore = 718;
+        score.setBounds(xScore, 141, 200, 100);
+    }
 }

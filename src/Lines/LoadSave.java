@@ -1,3 +1,8 @@
+/*Name: Group 15
+  Nguyễn Khánh Hà - ITCSIU21004
+  Phạm Anh Huy - ITCSIU21133
+  Trần Quang Bảo Duy - ITCSIU21176
+  Purpose: This class is to save file of resources */
 package Lines;
 
 import java.awt.image.BufferedImage;
@@ -6,10 +11,6 @@ import java.io.InputStream;
 import java.util.Objects;
 
 import javax.imageio.ImageIO;
-
-
-
-
 public class LoadSave {
 	
 //	Tổng hợp những file cần import, nếu ko tìm đc file thì chỉ cần chỉnh đg dẫn trong 1 class
@@ -38,7 +39,9 @@ public class LoadSave {
 	public static final String D6 = "Resources/Resources/Balls/d6.gif";
 	public static final String D7 = "Resources/Resources/Balls/d7.gif";
 	
-	public static final String PISKET = "Resources/Resources/Piskel.png";
+	public static final String PISKET = "Resources/Resources/lineFrame/Piskel.png";
+	public static final String UNDO = "Resources/Resources/button/undo.png";
+	public static final String RESTART = "Resources/Resources/button/restart.png";
 	
 	public static final String END_SCENE = "/Resources/gameover/scene.png";
 	public static final String PLAY_END_SCENE = "/Resources/gameover/play.png";
@@ -48,10 +51,9 @@ public class LoadSave {
 	public static final String PLAY_START_SCENE = "/Resources/start/play.png";
 	public static final String EXIT_START_SCENE = "/Resources/start/exit.png";
 	
-	public static final String MAIN_SCENE = "/Resources/main.png";
-	
+	public static final String MAIN_SCENE = "/Resources/lineFrame/main.png";
 
-	
+
 	public static BufferedImage GetImage(String fileName) {
 		BufferedImage img = null;
 		InputStream is = LoadSave.class.getResourceAsStream(fileName);
@@ -69,5 +71,4 @@ public class LoadSave {
 		}
 		return img;
 	}
-
 }

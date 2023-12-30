@@ -1,17 +1,14 @@
+/*Name: Group 15
+  Nguyễn Khánh Hà - ITCSIU21004
+  Phạm Anh Huy - ITCSIU21133
+  Trần Quang Bảo Duy - ITCSIU21176
+  Purpose: This class is to control the mouse of starting screen */
 package Lines;
 
-/*Name: Group 17
-  Nguyễn Khánh Hà - ITCSIU21004
-  Huỳnh Lâm Đăng Khoa - ITCSIU21138
-  Nguyễn Bình Phương Huy - ITCSIU21189
-  Trần Thanh Nguyên - ITCSIU21093
-  Purpose: This is a class to control the mouse of starting screen */
 
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class StartFrame extends JPanel implements MouseListener, MouseMotionListener, State {
@@ -36,21 +33,9 @@ public class StartFrame extends JPanel implements MouseListener, MouseMotionList
         play=2;
         exit=3;
         // Load the background image
-
         	backgroundImage = LoadSave.GetImage(LoadSave.START_SCENE);
         	playImage = LoadSave.GetImage(LoadSave.PLAY_START_SCENE);
         	exitImage = LoadSave.GetImage(LoadSave.EXIT_START_SCENE);
-        	
-//            try {        	
-//            backgroundImage = ImageIO.read(getClass().getResourceAsStream("/Resources/start/scene.png"));
-//            playImage=ImageIO.read(getClass().getResourceAsStream("/Resources/start/play.png"));
-//            exitImage=ImageIO.read(getClass().getResourceAsStream("/Resources/start/exit.png"));
-//            backgroundImage = ImageIO.read(getClass().getResourceAsStream("/1/scene.png"));
-//            playImage=ImageIO.read(getClass().getResourceAsStream("/1/play.png"));
-//            exitImage=ImageIO.read(getClass().getResourceAsStream("/1/exit.png"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
     public void mouseClicked(MouseEvent e) {
@@ -71,12 +56,6 @@ public class StartFrame extends JPanel implements MouseListener, MouseMotionList
     }
     private void startNewGame() {
     	command.setGameState();
-//        try {
-//            LineFrame lineFrame = new LineFrame();
-//            lineFrame.startGame();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }    	
     }
     public void mouseReleased(MouseEvent e) {
         isClicked = false;
@@ -128,7 +107,6 @@ public class StartFrame extends JPanel implements MouseListener, MouseMotionList
 	public void handleRequest() {
         StartFrame panel = new StartFrame( new Rectangle(400 - 30, 400, 220, 50),new Rectangle(370 - 30, 490, 250, 50),frame);
         panel.setPreferredSize(new Dimension(960, 640));
-
 
         frame.setVisible(true);
         frame.add(panel, BorderLayout.CENTER);

@@ -1,3 +1,8 @@
+/*Name: Group 15
+  Nguyễn Khánh Hà - ITCSIU21004
+  Phạm Anh Huy - ITCSIU21133
+  Trần Quang Bảo Duy - ITCSIU21176
+  Purpose: This class is to initial seven balls in game and apply game function*/
 package Lines;
 
 import java.util.Random;
@@ -134,7 +139,6 @@ public class Balls {
             Score = r.score;
     	}
     }
-
     //-------------------------------------------------------------------
     //luu trang thai truoc cua bang
     public void saveUndo(){
@@ -150,7 +154,6 @@ public class Balls {
         ScoreTemp = Score;
 
     	linklist.insertLast(balltmp, nextColortmp, ScoreTemp);
-
     }
     public boolean cutBall(){
         int NumCutBall = 0;//So bong bi cut
@@ -261,13 +264,11 @@ public class Balls {
                         Score+=(nCount-4)*nCount*10;
 
                     }
-
                 }
         for (i=0; i < NumCutBall; i++)
             ball[CellBall[i].x][CellBall[i].y ] = 0;
         if (NumCutBall>0) return true;
         else return false;
-
     }
     //Luu lai duong di
     public void FindPath(point p, point [][] PathBallTemp)
@@ -336,7 +337,6 @@ public class Balls {
                 Query[0][k] = Query[1][k];
             nQuery = nCount;
         }
-
         return false;
     }
 }

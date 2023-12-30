@@ -1,11 +1,9 @@
-package Lines;
-
-/*Name: Group 17
+/*Name: Group 15
   Nguyễn Khánh Hà - ITCSIU21004
-  Huỳnh Lâm Đăng Khoa - ITCSIU21138
-  Nguyễn Bình Phương Huy - ITCSIU21189
-  Trần Thanh Nguyên - ITCSIU21093
-  Purpose: This is a class to control the mouse of starting screen */
+  Phạm Anh Huy - ITCSIU21133
+  Trần Quang Bảo Duy - ITCSIU21176
+  Purpose: This class is to control the mouse of end screen*/
+package Lines;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -40,17 +38,6 @@ public class EndFrame extends JPanel implements MouseListener, MouseMotionListen
         	backgroundImage = LoadSave.GetImage(LoadSave.END_SCENE);
         	playImage = LoadSave.GetImage(LoadSave.PLAY_END_SCENE);
         	exitImage = LoadSave.GetImage(LoadSave.EXIT_END_SCENE);
-        	
-//            try {        	
-//            backgroundImage = ImageIO.read(getClass().getResourceAsStream("/Resources/start/scene.png"));
-//            playImage=ImageIO.read(getClass().getResourceAsStream("/Resources/start/play.png"));
-//            exitImage=ImageIO.read(getClass().getResourceAsStream("/Resources/start/exit.png"));
-//            backgroundImage = ImageIO.read(getClass().getResourceAsStream("/1/scene.png"));
-//            playImage=ImageIO.read(getClass().getResourceAsStream("/1/play.png"));
-//            exitImage=ImageIO.read(getClass().getResourceAsStream("/1/exit.png"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
     public void mouseClicked(MouseEvent e) {
@@ -71,12 +58,6 @@ public class EndFrame extends JPanel implements MouseListener, MouseMotionListen
     }
     private void startNewGame() {
     	command.setGameState();
-//        try {
-//            LineFrame lineFrame = new LineFrame();
-//            lineFrame.startGame();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
     }
     public void mouseReleased(MouseEvent e) {
         isClicked = false;
@@ -139,6 +120,5 @@ public class EndFrame extends JPanel implements MouseListener, MouseMotionListen
         frame.setLocationRelativeTo(null);
 
         frame.setVisible(true);
-		
 	}
 }
