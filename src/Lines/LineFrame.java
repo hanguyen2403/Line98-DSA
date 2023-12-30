@@ -267,6 +267,7 @@ public class LineFrame implements State {
         }
 	}
     public void setBound(){
+        if (b.Score > 999) xScore = 705;
         if (b.Score < 10) xScore = 744;
         if (b.Score > 9) xScore =  734;
         if (b.Score > 99) xScore = 718;
