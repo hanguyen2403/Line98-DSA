@@ -19,17 +19,17 @@ public class Line98Game  {
 	public Line98Game() {
 	}
   
-	public void setStartState() {
+	public static void setStartState() {
 		setting.setState(start);
 		setting.applyState();
 	}
 
-	public void setGameState() {
+	public static void setGameState() {
 		setting.setState(game);
 		setting.applyState();
 	}
 
-	public void setEndState() {
+	public static void setEndState() {
 		setting.setState(end);
 		setting.applyState();
 	}

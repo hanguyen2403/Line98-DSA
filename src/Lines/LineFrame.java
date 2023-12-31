@@ -26,7 +26,6 @@ public class LineFrame implements State {
     public MyPanel panel;
     public JFrame frame = new JFrame();
 
-    private static Line98Game command = new Line98Game(); //Command design pattern
     //----------------------------------------------------------------------------------------
     //Tạo command
     public LineFrame() {};
@@ -136,7 +135,7 @@ public class LineFrame implements State {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                command.setGameState();
+                Line98Game.setGameState();
             }
         });
     }
@@ -252,7 +251,7 @@ public class LineFrame implements State {
         if (n >= 3)
         	return;
         frame.dispose();
-        command.setEndState();
+        Line98Game.setEndState();
     }
 
 	@Override
