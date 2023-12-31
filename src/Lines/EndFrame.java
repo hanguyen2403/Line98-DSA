@@ -19,7 +19,6 @@ public class EndFrame extends JPanel implements MouseListener, MouseMotionListen
     private Point mousePos = new Point(-1, -1);
     private Rectangle area,area2;
     private int play,exit,state;
-    private static Line98Game command = new Line98Game(); //Command design pattern
     
     //Tạo command
     public EndFrame() {};
@@ -57,7 +56,7 @@ public class EndFrame extends JPanel implements MouseListener, MouseMotionListen
         startNewGame();
     }
     private void startNewGame() {
-    	command.setGameState();
+        Line98Game.setGameState();
     }
     public void mouseReleased(MouseEvent e) {
         isClicked = false;
