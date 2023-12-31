@@ -115,7 +115,8 @@ The game consists of a 10x10 board with randomly placed balls of different color
 
 <h3 id="new-features"> Upgraded Features </h3>
   <ul>
-    <li>add undo feature</li>
+    <li>Add undo feature </li>
+    <li>Add design pattern (Command)</li>
   </ul>
 
 
