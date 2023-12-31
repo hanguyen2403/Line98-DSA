@@ -114,7 +114,7 @@ public class Balls {
         //Tạo 3 bóng nhỏ
         int x, y;
         point[] EmptyCell = new point[3];
-        Random random =  new Random();
+        //Random random =  new Random();
         if (CheckEmptyCell(3,EmptyCell))
             for (int i = 0; i < 3; i++){
                 x = EmptyCell[i].x;

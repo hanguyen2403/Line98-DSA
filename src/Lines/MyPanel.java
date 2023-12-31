@@ -5,15 +5,15 @@
   Purpose: This class is to show moving path of balls */
 package Lines;
 
-import javax.imageio.ImageIO;
+//import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.io.IOException;
-import java.util.Objects;
+//import java.awt.image.BufferedImage;
+//import java.awt.image.BufferedImageOp;
+//import java.io.IOException;
+//import java.util.Objects;
 
 public class MyPanel extends JPanel implements ActionListener {
 
