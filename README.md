@@ -121,4 +121,4 @@ The game consists of a 10x10 board with randomly placed balls of different color
 
 <!-- REFERENCES -->
 <h2 id="references"> References </h2>
-<a href="https://github.com/ngochaibui/lines98"> Github </a> 
+<a href="https://katatunix.wordpress.com/2010/11/23/thu%E1%BA%ADt-toan-c%E1%BB%A7a-game-lines98-p1/"> Lines98 </a> 
