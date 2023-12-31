@@ -54,12 +54,12 @@ Line 98 is a classic puzzle game that involves moving colored balls to form line
         <td>ITCSIU21004</td>
     </tr>
     <tr>
-        <td>3</td>
+        <td>2</td>
         <td>Phạm Anh Huy</td>
         <td>ITCSIU21133</td>
     </tr>
     <tr>
-        <td>1</td>
+        <td>3</td>
         <td>Trần Quang Bảo Duy</td>
         <td>ITCSIU21176</td>
     </tr>
