@@ -109,7 +109,7 @@ The game consists of a 10x10 board with randomly placed balls of different color
   </ul>
 <h3 id="BFS"> DSA apply </h3>
     <ul>
-        <li>Bread First Search (BFS):  It starts at the root of the graph and visits all nodes at the current depth level before moving on to the nodes at the next depth level. BFS uses a queue data structure for traversal. The algorithm is used to find the shortest path between two nodes in an unweighted graph.</li>
+        <li>Breadth First Search (BFS):  It starts at the root of the graph and visits all nodes at the current depth level before moving on to the nodes at the next depth level. BFS uses a queue data structure for traversal. The algorithm is used to find the shortest path between two nodes in an unweighted graph.</li>
     </ul>
 <img src="Resources/Resources/Game Play/BFS.png" >
 
