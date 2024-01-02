@@ -27,7 +27,7 @@
         <li><a href="#uml"> UML</a></li>
         <li><a href="#probs"> Original source code problems</a></li>
         <li><a href="#BFS"> DSA apply</a></li>        
-        <li><a href="#new-features"> New Features</a></li>
+        <li><a href="#new-features"> Upgraded Features</a></li>
       </ol>
     </li>
     <li><a href="#references"> ➤ References</a></li>
@@ -108,11 +108,12 @@ The game consists of a 10x10 board with randomly placed balls of different color
     <li>Non user-friendly interface</li>
   </ul>
 <h3 id="BFS"> DSA apply </h3>
-    <ul>
-        <li>Breadth First Search (BFS):  It starts at the root of the graph and visits all nodes at the current depth level before moving on to the nodes at the next depth level. BFS uses a queue data structure for traversal. The algorithm is used to find the shortest path between two nodes in an unweighted graph.</li>
-    </ul>
-<img src="Resources/Resources/Game Play/BFS.png" >
-
+    <h4 id="BFS"> Breadth First Search (BFS)</h4>
+        <p> The concept of this is first at the start point it will find around them if there is a blank cell that the ball can go, after finding if it have any path, the program will assign the root point to the branch path and then set the brand point as a root point following that it will continuously find until finds the destination path, so that the program will return true and the path is displayed on the scene. If there is not the program will return false and wait for the player to click on another cell. </p> 
+        <img src="Resources/Resources/Game Play/BFS.png" >
+    <h4 id="Linked_list"> Linked List </h4>
+        <p> The undo button is built based on the idea of Doubly Linked List. Each Link will store the data of the board(which is the ball, color and score) and the Linked List will have a method to insert and delete each Link. When the game is processed, each move will call the “saveUndo()” method and save the state of the board, and when the undo button is pressed, the “Undo()” method will get the state inside the Linked List and the board will come back to that state. Additionally, to balance the game, the undo button is limited to 5 times </p>
+        <img src="Resources/Resources/Game Play/Linkedlist.png" >
 <h3 id="new-features"> Upgraded Features </h3>
   <ul>
     <li>Add undo feature </li>
